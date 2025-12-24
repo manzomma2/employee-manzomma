@@ -17,12 +17,12 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function index($perPage): LengthAwarePaginator
     {
-        return $this->model->with(['sector', 'categoryGroup'])->latest()->paginate($perPage);
+        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses'])->latest()->paginate($perPage);
     }
 
     public function show($id)
     {
-        return $this->model->with(['sector', 'categoryGroup'])->findOrFail($id);
+        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses'])->findOrFail($id);
     }
 
     public function store(array $data)

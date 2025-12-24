@@ -22,7 +22,6 @@ class JobGroupUpdateRequest extends FormRequest
     public function rules(): array
     {
         $jobGroupId = $this->route('job_group') ? $this->route('job_group')->id : $this->route('job-group');
-        
         return [
             'name' => 'required|string|max:255|unique:job_groups,name,' . $jobGroupId,
             'description' => 'nullable|string'

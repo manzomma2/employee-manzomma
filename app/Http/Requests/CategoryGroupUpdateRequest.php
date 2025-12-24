@@ -14,14 +14,14 @@ class CategoryGroupUpdateRequest extends FormRequest
 
     public function rules(): array
     {
-        $categoryGroupId = $this->route('category-group');
+        $categoryGroup = $this->route('category_group') ;     
         
         return [
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('category_groups', 'name')->ignore($categoryGroupId)
+                Rule::unique('category_groups', 'name')->ignore($categoryGroup->id)
             ],
             'job_group_id' => 'required|exists:job_groups,id',
             'description' => 'nullable|string'

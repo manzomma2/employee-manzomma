@@ -74,26 +74,32 @@ class EmployeeUpdateRequest extends FormRequest
                 'date',
                 'after_or_equal:contract_date'
             ],
-            'grade' => [
-                'sometimes',
-                'nullable',
-                'string',
-                Rule::in(Grade::values())
-            ],
-            'grade_level' => [
-                'sometimes',
-                'nullable',
-                'string',
-                Rule::in(GradeLevel::values()),
-                function ($attribute, $value, $fail) {
-                    $grade = $this->input('grade');
-                    if ($value === GradeLevel::C->value && $grade !== Grade::THIRD->value) {
-                        $fail('يمكن اختيار المستوى (ج) فقط مع الدرجة الثالثة.');
-                    }
-                },
-            ],
-            'grade_date' => 'sometimes|nullable|date',
-
+            'marital_status' => ['sometimes', 'nullable', 'string', Rule::in(['عزباء', 'أعزب', 'متزوجة', 'متزوج', 'مطلقة', 'مطلق', 'أرملة', 'أرمل'])],
+            'religion' => ['sometimes', 'nullable', 'string', Rule::in(['مسلم', 'مسيحي'])],
+            'address' => 'sometimes|nullable|string|max:1000',
+            'academic_qualification' => 'sometimes|nullable|string|max:100',
+            'academic_specialization' => 'sometimes|nullable|string|max:255',
+            'graduation_date' => 'sometimes|nullable|date|before_or_equal:today',
+            'birth_date' => 'sometimes|nullable|date|before_or_equal:today',
+            'appointment_decision_number' => 'sometimes|nullable|string|max:100',
+            'type' => ['sometimes', 'nullable', 'string', Rule::in(['ذكر', 'انثى'])],
+            'job_grades' => 'sometimes|array',
+            'job_levels' => 'sometimes|array',
+            'grade_effective_dates' => 'sometimes|array',
+            'grade_decision_numbers' => 'sometimes|array',
+            'job_grades.*' => ['sometimes', 'nullable', 'string', Rule::in(Grade::values())],
+            'job_levels.*' => ['sometimes', 'nullable', 'string', Rule::in(GradeLevel::values())],
+            'grade_effective_dates.*' => 'sometimes|nullable|date|before_or_equal:today',
+            'grade_decision_numbers.*' => 'sometimes|nullable|string|max:100',
+            'training_courses_names' => 'sometimes|array',
+            'training_courses_start_dates' => 'sometimes|array',
+            'training_courses_end_dates' => 'sometimes|array',
+            'training_courses_ids' => 'sometimes|array',
+            'training_courses_names.*' => 'sometimes|nullable|string|max:255',
+            'training_courses_start_dates.*' => 'sometimes|nullable|date|before_or_equal:today',
+            'training_courses_end_dates.*' => 'sometimes|nullable|date|after_or_equal:training_courses_start_dates.*',
+            'training_courses_ids.*' => 'sometimes|nullable|exists:training_courses,id',
+            
         ];
     }
 
@@ -110,8 +116,17 @@ class EmployeeUpdateRequest extends FormRequest
             'category_group_id.exists' => 'The selected category group is invalid.',
             'contract_date.after_or_equal' => 'Contract date must be on or after hire date.',
             'joining_date.after_or_equal' => 'Joining date must be on or after contract date.',
-            'grade.in' => 'Please select a valid grade.',
-            'grade_level.in' => 'Please select a valid grade level.'
+            'marital_status.in' => 'Please select a valid marital status.',
+            'religion.in' => 'Please select a valid religion.',
+            'address.max' => 'Address must not exceed 1000 characters.',
+            'academic_qualification.max' => 'Academic qualification must not exceed 100 characters.',
+            'academic_specialization.max' => 'Academic specialization must not exceed 255 characters.',
+            'graduation_date.date' => 'Please enter a valid graduation date.',
+            'graduation_date.before_or_equal' => 'Graduation date cannot be in the future.',
+            'birth_date.date' => 'Please enter a valid birth date.',
+            'birth_date.before_or_equal' => 'Birth date cannot be in the future.',
+            'appointment_decision_number.max' => 'Appointment decision number must not exceed 100 characters.',
+            'type.in' => 'Please select a valid gender.'
         ];
     }
 }

@@ -17,6 +17,8 @@ class Employee extends Model
         'contract_date' => 'date:Y-m-d',
         'joining_date' => 'date:Y-m-d',
         'grade_date' => 'date:Y-m-d',
+        'graduation_date' => 'date:Y-m-d',
+        'birth_date' => 'date:Y-m-d',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -30,5 +32,14 @@ class Employee extends Model
     public function categoryGroup()
     {
         return $this->belongsTo(CategoryGroup::class)->with('jobGroup');
+    }
+    public function careerProgressions()
+    {
+        return $this->hasMany(CareerProgression::class);
+    }
+
+    public function trainingCourses()
+    {
+        return $this->hasMany(TrainingCourse::class);
     }
 }
