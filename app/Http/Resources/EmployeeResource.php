@@ -44,7 +44,7 @@ class EmployeeResource extends JsonResource
             'appointment_decision_number' => $this->appointment_decision_number,
             'type' => $this->type,
             'current_grade' => $this->whenLoaded('careerProgressions', function () {
-            $latest = $this->careerProgressions->sortByDesc('grade_effective_date')->first();
+            $latest = $this->careerProgressions->sortByDesc('id')->first();
             return $latest ? new CareerProgressionResource($latest) : null;
             }),
             'career_history' => $this->whenLoaded('careerProgressions', function () {
@@ -53,12 +53,57 @@ class EmployeeResource extends JsonResource
                 );
             }),
             'current_training_courses' => $this->whenLoaded('trainingCourses', function () {
-                $latest = $this->trainingCourses->sortByDesc('created_at')->first();
+                $latest = $this->trainingCourses->sortByDesc('id')->first();
                 return $latest ? new TrainingCourseResource($latest) : null;
             }),
             'training_cources_history' => $this->whenLoaded('trainingCourses', function () {
                 return TrainingCourseResource::collection(
                     $this->trainingCourses->sortByDesc('created_at')->values()
+                );
+            }),
+            'current_deduction' => $this->whenLoaded('deductions', function () {
+                $latest = $this->deductions->sortByDesc('id')->first();
+                return $latest ? new DeductionResource($latest) : null;
+            }),
+            'deductions' => $this->whenLoaded('deductions', function () {
+                return DeductionResource::collection(
+                    $this->deductions->sortByDesc('id')->values()
+                );
+            }),
+            'current_performance_evaluation' => $this->whenLoaded('performanceEvaluations', function () {
+                $latest = $this->performanceEvaluations->sortByDesc('id')->first();
+                return $latest ? new PerformanceEvaluationResource($latest) : null;
+            }),
+            'performance_evaluations' => $this->whenLoaded('performanceEvaluations', function () {
+                return PerformanceEvaluationResource::collection(
+                    $this->performanceEvaluations->sortByDesc('id')->values()
+                );
+            }),
+            'current_settlement' => $this->whenLoaded('settlements', function () {
+                $latest = $this->settlements->sortByDesc('id')->first();
+                return $latest ? new SettlementResource($latest) : null;
+            }),
+            'settlements' => $this->whenLoaded('settlements', function () {
+                return SettlementResource::collection(
+                    $this->settlements->sortByDesc('id')->values()
+                );
+            }),
+            'current_bonus' => $this->whenLoaded('bonuses', function () {
+                $latest = $this->bonuses->sortByDesc('id')->first();
+                return $latest ? new BonusResource($latest) : null;
+            }),
+            'bonuses' => $this->whenLoaded('bonuses', function () {
+                return BonusResource::collection(
+                    $this->bonuses->sortByDesc('id')->values()
+                );
+            }),
+            'current_incentive' => $this->whenLoaded('incentives', function () {
+                $latest = $this->incentives->sortByDesc('id')->first();
+                return $latest ? new IncentiveResource($latest) : null;
+            }),
+            'incentives' => $this->whenLoaded('incentives', function () {
+                return IncentiveResource::collection(
+                    $this->incentives->sortByDesc('id')->values()
                 );
             }),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,

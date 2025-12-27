@@ -42,4 +42,29 @@ class Employee extends Model
     {
         return $this->hasMany(TrainingCourse::class);
     }
+
+    public function deductions()
+    {
+        return $this->hasMany(Deduction::class);
+    }
+
+    public function performanceEvaluations()
+    {
+        return $this->hasMany(PerformanceEvaluation::class);
+    }
+
+    public function settlements()
+    {
+        return $this->hasMany(Settlement::class);
+    }
+
+    public function bonuses()
+    {
+        return $this->hasMany(Bonus::class);
+    }
+
+    public function incentives()
+    {
+        return $this->hasMany(Incentive::class);
+    }
 }
