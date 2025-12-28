@@ -1,0 +1,1486 @@
+{
+	"info": {
+		"_postman_id": "6b8082ba-23cc-4602-b32d-8d77c884d15e",
+		"name": "employee manzoma",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49219937",
+		"_collection_link": "https://lunar-meteor-567176.postman.co/workspace/Manzoma~f06d7059-c0c8-44a2-bc35-7a39dbed475a/collection/49219937-6b8082ba-23cc-4602-b32d-8d77c884d15e?action=share&source=collection_link&creator=49219937"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "khaled@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "991199",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/login",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/logout",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employees",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/employees?per_page=10",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "afksssdsdsfnasfdg",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "dfg",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "asfssdfgsdhjafasdsda@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "file_number",
+									"value": "sfsgshjg-hjik1sd",
+									"type": "text"
+								},
+								{
+									"key": "job_title",
+									"value": "ghkjhkhgks",
+									"type": "text"
+								},
+								{
+									"key": "national_id",
+									"value": "67867869786783",
+									"type": "text"
+								},
+								{
+									"key": "insurance_number",
+									"value": "678766465687683",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/ASD/Pictures/das.png"
+								},
+								{
+									"key": "phone",
+									"value": "67876867876",
+									"type": "text"
+								},
+								{
+									"key": "contract_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "joining_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "hire_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sector_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "category_group_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "marital_status",
+									"value": "متزوج",
+									"type": "text"
+								},
+								{
+									"key": "religion",
+									"value": "مسلم",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "يبليبلبيلبيليب",
+									"type": "text"
+								},
+								{
+									"key": "academic_qualification",
+									"value": "يبليبلبليبل",
+									"type": "text"
+								},
+								{
+									"key": "academic_specialization",
+									"value": "يبلبيلبيلبيل",
+									"type": "text"
+								},
+								{
+									"key": "graduation_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "appointment_decision_number",
+									"value": "4535454354--0-0هحخجحج",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "ذكر",
+									"type": "text"
+								},
+								{
+									"key": "job_grades[0]",
+									"value": "الدرجة الاولى",
+									"type": "text"
+								},
+								{
+									"key": "job_levels[0]",
+									"value": "أ",
+									"type": "text"
+								},
+								{
+									"key": "grade_effective_dates[0]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "grade_decision_numbers[0]",
+									"value": "سبيليلاقععقع",
+									"type": "text"
+								},
+								{
+									"key": "job_grades[1]",
+									"value": "الدرجة الثانية",
+									"type": "text"
+								},
+								{
+									"key": "job_levels[1]",
+									"value": "أ",
+									"type": "text"
+								},
+								{
+									"key": "grade_effective_dates[1]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "grade_decision_numbers[1]",
+									"value": "شبسبيسبيسبل",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_names[0]",
+									"value": "dfghdfhfdh",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_start_dates[0]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_end_dates[0]",
+									"value": "2025-12-28",
+									"type": "text"
+								},
+								{
+									"key": "deduction_values[0]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "deduction_reasons[0]",
+									"value": "asdsadsa",
+									"type": "text"
+								},
+								{
+									"key": "deduction_dates[0]",
+									"value": "2025-12-27",
+									"type": "text"
+								},
+								{
+									"key": "deduction_values[1]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "deduction_reasons[1]",
+									"value": "asdsadsa",
+									"type": "text"
+								},
+								{
+									"key": "deduction_dates[1]",
+									"value": "2025-12-27",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_degrees[0]",
+									"value": "asdsadsad",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_ratings[0]",
+									"value": "142",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_from_dates[0]",
+									"value": "2025-12-27",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_to_dates[0]",
+									"value": "2025-12-28",
+									"type": "text"
+								},
+								{
+									"key": "settlement_decisions[0]",
+									"value": "asdsadasd",
+									"type": "text"
+								},
+								{
+									"key": "settlement_dates[0]",
+									"value": "2025-12-27",
+									"type": "text"
+								},
+								{
+									"key": "bonus_numbers[0]",
+									"value": "asdasd",
+									"type": "text"
+								},
+								{
+									"key": "bonus_values[0]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "bonus_dates[0]",
+									"value": "2025-12-27",
+									"type": "text"
+								},
+								{
+									"key": "bonus_decisions[0]",
+									"value": "asdasdsad",
+									"type": "text"
+								},
+								{
+									"key": "incentive_numbers[0]",
+									"value": "53543",
+									"type": "text"
+								},
+								{
+									"key": "incentive_decisions[0]",
+									"value": "02154",
+									"type": "text"
+								},
+								{
+									"key": "incentive_values[0]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "incentive_dates[0]",
+									"value": "2025-12-27",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/employees",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "afksssdsdsfnasfdgsdf",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "sdfg",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "asfsafdsfrtbbbmsda@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "file_number",
+									"value": "tyrtdytr",
+									"type": "text"
+								},
+								{
+									"key": "job_title",
+									"value": "rtyrty",
+									"type": "text"
+								},
+								{
+									"key": "national_id",
+									"value": "4565645465465",
+									"type": "text"
+								},
+								{
+									"key": "insurance_number",
+									"value": "4564566",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/ASD/Pictures/asas.png"
+								},
+								{
+									"key": "phone",
+									"value": "67876867876",
+									"type": "text"
+								},
+								{
+									"key": "contract_date",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "joining_date",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "hire_date",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "sector_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "category_group_id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "job_grades[0]",
+									"value": "الدرجة الاولى",
+									"type": "text"
+								},
+								{
+									"key": "job_levels[0]",
+									"value": "أ",
+									"type": "text"
+								},
+								{
+									"key": "grade_effective_dates[0]",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "grade_decision_numbers[0]",
+									"value": "asdgfgh",
+									"type": "text"
+								},
+								{
+									"key": "job_grades[1]",
+									"value": "الدرجة الثانية",
+									"type": "text"
+								},
+								{
+									"key": "job_levels[1]",
+									"value": "أ",
+									"type": "text"
+								},
+								{
+									"key": "grade_effective_dates[1]",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "grade_decision_numbers[1]",
+									"value": "453يلايبا",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_names[0]",
+									"value": "asdxbxcvnb",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_start_dates[0]",
+									"value": "2025-12-20",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_end_dates[0]",
+									"value": "2025-12-21",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_names[1]",
+									"value": "bncvbnjy",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_start_dates[1]",
+									"value": "2025-11-20",
+									"type": "text"
+								},
+								{
+									"key": "training_courses_end_dates[1]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "deduction_values[0]",
+									"value": "2.5",
+									"type": "text"
+								},
+								{
+									"key": "deduction_reasons[0]",
+									"value": "asdas",
+									"type": "text"
+								},
+								{
+									"key": "deduction_dates[0]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_degrees[0]",
+									"value": "dasadsad",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_ratings[0]",
+									"value": "dadsadsa",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_from_dates[0]",
+									"value": "2025-12-24",
+									"type": "text"
+								},
+								{
+									"key": "evaluation_to_dates[0]",
+									"value": "2025-12-25",
+									"type": "text"
+								},
+								{
+									"key": "settlement_decisions[0]",
+									"value": "asdsa",
+									"type": "text"
+								},
+								{
+									"key": "settlement_dates[0]",
+									"value": "2025-12-25",
+									"type": "text"
+								},
+								{
+									"key": "bonus_numbers[0]",
+									"value": "jhkhjk",
+									"type": "text"
+								},
+								{
+									"key": "bonus_values[0]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "bonus_dates[0]",
+									"value": "2025-12-25",
+									"type": "text"
+								},
+								{
+									"key": "bonus_decisions[0]",
+									"value": "dfghfd",
+									"type": "text"
+								},
+								{
+									"key": "incentive_numbers[0]",
+									"value": "jkk",
+									"type": "text"
+								},
+								{
+									"key": "incentive_decisions[0]",
+									"value": "fghjg",
+									"type": "text"
+								},
+								{
+									"key": "incentive_values[0]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "incentive_dates[0]",
+									"value": "2025-12-25",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/employees/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "29"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/employees/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Local_BaseURL}}/employees/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "29"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sectors",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/sectors",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"sectors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "masr",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/sectors",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"sectors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "masrمك",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/sectors/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"sectors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/sectors/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"sectors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Local_BaseURL}}/sectors/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"sectors",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category group",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/category-groups",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"category-groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "masrasdfa",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asdadas",
+									"type": "text"
+								},
+								{
+									"key": "job_group_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/category-groups",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"category-groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "masru",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "job_group_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asdasdasd",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/category-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"category-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/category-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"category-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Local_BaseURL}}/category-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"category-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "job groups",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/job-groups",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"job-groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "asdasdssd",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asdsdsadsd",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/job-groups",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"job-groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "تامينات",
+									"type": "text"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asdasd",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Local_BaseURL}}/job-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"job-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Local_BaseURL}}/job-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"job-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Local_BaseURL}}/job-groups/:id",
+							"host": [
+								"{{Local_BaseURL}}"
+							],
+							"path": [
+								"job-groups",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Local_BaseURL",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
