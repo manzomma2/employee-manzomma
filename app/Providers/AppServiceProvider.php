@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\PermissionService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -9,9 +10,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-   // app/Providers/AppServiceProvider.php
     public function register()
     {
+        require_once app_path('Support/helpers.php');
+
+        $this->app->singleton('permission.service', PermissionService::class);
+
         $this->app->bind(
             \App\Interfaces\EmployeeRepositoryInterface::class,
             \App\Repositories\EmployeeRepository::class

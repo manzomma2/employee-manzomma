@@ -17,8 +17,12 @@ class EmployeeController extends Controller
     public function __construct(EmployeeService $employeeService)
     {
         $this->employeeService = $employeeService;
+        $this->middleware('permission:employees,list_view')->only('index');
+        $this->middleware('permission:employees,detailed_view')->only('show');
+        $this->middleware('permission:employees,create')->only('store');
+        $this->middleware('permission:employees,update')->only('update');
+        $this->middleware('permission:employees,delete')->only('destroy');
     }
-
     public function index(): JsonResponse
     {
         $perPage = request()->get('per_page', 15);

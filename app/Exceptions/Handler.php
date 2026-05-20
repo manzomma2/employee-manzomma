@@ -3,6 +3,11 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,5 +49,69 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->expectsJson() || $request->is('api/*')) {
+            if ($e instanceof ValidationException) {
+                $errors = $e->errors();
+                $firstMessage = '';
+
+                foreach ($errors as $fieldErrors) {
+                    if (is_array($fieldErrors) && count($fieldErrors) > 0) {
+                        $firstMessage = $fieldErrors[0];
+                        break;
+                    }
+                }
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $firstMessage ?: 'Validation error',
+                    'errors' => $errors
+                ], 422);
+            }
+
+            if ($e instanceof AuthenticationException) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthenticated'
+                ], 401);
+            }
+
+            if ($e instanceof AuthorizationException) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Forbidden'
+                ], 403);
+            }
+
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Resource not found'
+                ], 404);
+            }
+
+            if ($e instanceof HttpException) {
+                $status = $e->getStatusCode();
+                $message = $e->getMessage() ?: 'HTTP error';
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $message
+                ], $status);
+            }
+
+            $status = 500;
+            $message = config('app.debug') ? $e->getMessage() : 'Server error';
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $message
+            ], $status);
+        }
+
+        return parent::render($request, $e);
     }
 }
