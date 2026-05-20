@@ -11,6 +11,14 @@ use Illuminate\Http\JsonResponse;
 
 class JobGroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:job_groups,list_view')->only('index');
+        $this->middleware('permission:job_groups,detailed_view')->only('show');
+        $this->middleware('permission:job_groups,create')->only('store');
+        $this->middleware('permission:job_groups,update')->only('update');
+        $this->middleware('permission:job_groups,delete')->only('destroy');
+    }
     public function index(): JsonResponse
     {
         $jobGroups = JobGroup::with(['categoryGroups' => function($query) {

@@ -11,6 +11,14 @@ use Illuminate\Http\JsonResponse;
 
 class SectorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:sectors,list_view')->only('index');
+        $this->middleware('permission:sectors,detailed_view')->only('show');
+        $this->middleware('permission:sectors,create')->only('store');
+        $this->middleware('permission:sectors,update')->only('update');
+        $this->middleware('permission:sectors,delete')->only('destroy');
+    }
     public function index(): JsonResponse
     {
         $sectors = Sector::with('employees')->latest()->get();

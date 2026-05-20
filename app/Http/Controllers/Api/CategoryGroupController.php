@@ -12,6 +12,14 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryGroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:category_groups,list_view')->only('index');
+        $this->middleware('permission:category_groups,detailed_view')->only('show');
+        $this->middleware('permission:category_groups,create')->only('store');
+        $this->middleware('permission:category_groups,update')->only('update');
+        $this->middleware('permission:category_groups,delete')->only('destroy');
+    }
     public function index(): AnonymousResourceCollection
     {
         return CategoryGroupResource::collection(

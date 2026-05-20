@@ -23,6 +23,9 @@ class PermissionService
             'settlements' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
             'bonuses' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
             'incentives' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
+            'branches' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
+            'departments' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
+            'administration_orders' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
         ];
     }
 
@@ -46,6 +49,9 @@ class PermissionService
             'settlements' => ['list_view', 'detailed_view'],
             'bonuses' => ['list_view', 'detailed_view', 'create', 'update'],
             'incentives' => ['list_view', 'detailed_view', 'create', 'update'],
+            'branches' => ['list_view', 'detailed_view'],
+            'departments' => ['list_view', 'detailed_view'],
+            'administration_orders' => ['list_view', 'detailed_view', 'create', 'update'],
         ];
     }
 

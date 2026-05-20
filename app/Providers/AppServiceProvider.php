@@ -20,6 +20,21 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\EmployeeRepositoryInterface::class,
             \App\Repositories\EmployeeRepository::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\BranchRepositoryInterface::class,
+            \App\Repositories\BranchRepository::class
+        );
+
+        $this->app->bind(
+            \App\Interfaces\DepartmentRepositoryInterface::class,
+            \App\Repositories\DepartmentRepository::class
+        );
+
+        $this->app->bind(
+            \App\Interfaces\AdministrationOrderRepositoryInterface::class,
+            \App\Repositories\AdministrationOrderRepository::class
+        );
     }
 
     public function boot()
@@ -28,6 +43,24 @@ class AppServiceProvider extends ServiceProvider
             ->needs(\App\Models\Employee::class)
             ->give(function () {
                 return new \App\Models\Employee();
+            });
+
+        $this->app->when(\App\Repositories\BranchRepository::class)
+            ->needs(\App\Models\Branch::class)
+            ->give(function () {
+                return new \App\Models\Branch();
+            });
+
+        $this->app->when(\App\Repositories\DepartmentRepository::class)
+            ->needs(\App\Models\Department::class)
+            ->give(function () {
+                return new \App\Models\Department();
+            });
+
+        $this->app->when(\App\Repositories\AdministrationOrderRepository::class)
+            ->needs(\App\Models\AdministrationOrder::class)
+            ->give(function () {
+                return new \App\Models\AdministrationOrder();
             });
     }
 }

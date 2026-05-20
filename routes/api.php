@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\JobGroupController;
 use App\Http\Controllers\Api\CategoryGroupController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\AdministrationOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,6 @@ use Illuminate\Support\Facades\Route;
         Route::resource('category-groups', CategoryGroupController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('departments', DepartmentController::class);
+        Route::resource('administration-orders', AdministrationOrderController::class);
         
     });
