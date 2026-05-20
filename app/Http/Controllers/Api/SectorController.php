@@ -21,7 +21,7 @@ class SectorController extends Controller
     }
     public function index(): JsonResponse
     {
-        $sectors = Sector::with('employees')->latest()->get();
+        $sectors = Sector::latest()->get();
         return response()->json([
             'status' => 'success',
             'data' => SectorResource::collection($sectors)

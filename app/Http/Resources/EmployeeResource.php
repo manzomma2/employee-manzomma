@@ -23,9 +23,12 @@ class EmployeeResource extends JsonResource
             'job_title' => $this->job_title,
             'national_id' => $this->national_id,
             'insurance_number' => $this->insurance_number,
-            'sector' => $this->whenLoaded('sector', function () {
-                return new SectorResource($this->sector);
+          
+            'administration_order' => $this->whenLoaded('latestAdministrationOrder', function () {
+                $latest = $this->latestAdministrationOrder;
+                return $latest ? new AdministrationOrderResource($latest) : null;
             }),
+           
             'category_group' => $this->whenLoaded('categoryGroup', function () {
                 return new CategoryGroupResource($this->categoryGroup);
             }),

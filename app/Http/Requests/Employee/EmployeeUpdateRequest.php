@@ -43,7 +43,6 @@ class EmployeeUpdateRequest extends FormRequest
                 Rule::unique('employees', 'file_number')->ignore($employeeId)
             ],
             'job_title' => 'sometimes|nullable|string|max:255',
-            'sector_id' => 'sometimes|nullable|exists:sectors,id',
             'category_group_id' => 'sometimes|nullable|exists:category_groups,id',
             'national_id' => [
                 'sometimes',
@@ -156,7 +155,6 @@ class EmployeeUpdateRequest extends FormRequest
             'phone.max' => 'Phone number must not exceed 20 characters.',
             'national_id.unique' => 'This national ID is already registered.',
             'insurance_number.unique' => 'This insurance number is already in use.',
-            'sector_id.exists' => 'The selected sector is invalid.',
             'category_group_id.exists' => 'The selected category group is invalid.',
             'contract_date.after_or_equal' => 'Contract date must be on or after hire date.',
             'joining_date.after_or_equal' => 'Joining date must be on or after contract date.',

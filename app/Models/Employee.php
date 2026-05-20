@@ -67,4 +67,16 @@ class Employee extends Model
     {
         return $this->hasMany(Incentive::class);
     }
+
+    public function administrationOrders()
+    {
+        return $this->hasMany(AdministrationOrder::class);
+    }
+
+    public function latestAdministrationOrder()
+    {
+        return $this->hasOne(AdministrationOrder::class)
+            ->where('active', true)
+            ->latest('created_at');
+    }
 }

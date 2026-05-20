@@ -39,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // Register model observers
+        \App\Models\AdministrationOrder::observe(\App\Observers\AdministrationOrderObserver::class);
+
         $this->app->when(\App\Repositories\EmployeeRepository::class)
             ->needs(\App\Models\Employee::class)
             ->give(function () {

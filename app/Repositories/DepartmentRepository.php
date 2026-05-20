@@ -2,27 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\AdministrationOrderRepositoryInterface;
-use App\Models\AdministrationOrder;
+use App\Interfaces\DepartmentRepositoryInterface;
+use App\Models\Department;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class AdministrationOrderRepository implements AdministrationOrderRepositoryInterface
+class DepartmentRepository implements DepartmentRepositoryInterface
 {
     protected $model;
 
-    public function __construct(AdministrationOrder $administrationOrder)
+    public function __construct(Department $department)
     {
-        $this->model = $administrationOrder;
+        $this->model = $department;
     }
 
     public function index($perPage): LengthAwarePaginator
     {
-        return $this->model->with(['officer', 'sector', 'department'])->latest()->paginate($perPage);
+        return $this->model->with('branch')->latest()->paginate($perPage);
     }
 
     public function show($id)
     {
-        return $this->model->with(['officer', 'sector', 'department'])->findOrFail($id);
+        return $this->model->with('branch')->findOrFail($id);
     }
 
     public function store(array $data)
@@ -32,14 +32,14 @@ class AdministrationOrderRepository implements AdministrationOrderRepositoryInte
 
     public function update($id, array $data)
     {
-        $order = $this->model->findOrFail($id);
-        $order->update($data);
-        return $order->fresh();
+        $department = $this->model->findOrFail($id);
+        $department->update($data);
+        return $department->fresh();
     }
 
     public function delete($id): bool
     {
-        $order = $this->model->findOrFail($id);
-        return $order->delete();
+        $department = $this->model->findOrFail($id);
+        return $department->delete();
     }
 }
