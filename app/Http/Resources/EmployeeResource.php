@@ -23,14 +23,16 @@ class EmployeeResource extends JsonResource
             'job_title' => $this->job_title,
             'national_id' => $this->national_id,
             'insurance_number' => $this->insurance_number,
-          
-            'administration_order' => $this->whenLoaded('latestAdministrationOrder', function () {
+            'current_administration_order' => $this->whenLoaded('latestAdministrationOrder', function () {
                 $latest = $this->latestAdministrationOrder;
                 return $latest ? new AdministrationOrderResource($latest) : null;
             }),
            
             'category_group' => $this->whenLoaded('categoryGroup', function () {
                 return new CategoryGroupResource($this->categoryGroup);
+            }),
+            'administration_orders' => $this->whenLoaded('administrationOrders', function () {
+                return AdministrationOrderResource::collection($this->administrationOrders->sortByDesc('created_at')->values());
             }),
             'photo' => $this->photo,
             'phone' => $this->phone,
