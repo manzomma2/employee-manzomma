@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\SectorController;
 use App\Http\Controllers\Api\JobGroupController;
 use App\Http\Controllers\Api\CategoryGroupController;
+use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\DepartmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +34,7 @@ use Illuminate\Support\Facades\Route;
         Route::resource('sectors', SectorController::class);
         Route::resource('job-groups', JobGroupController::class);
         Route::resource('category-groups', CategoryGroupController::class);
+        Route::resource('branches', BranchController::class);
+        Route::resource('departments', DepartmentController::class);
         
     });
