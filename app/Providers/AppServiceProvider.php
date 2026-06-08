@@ -35,6 +35,16 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\AdministrationOrderRepositoryInterface::class,
             \App\Repositories\AdministrationOrderRepository::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\VacationTypeRepositoryInterface::class,
+            \App\Repositories\VacationTypeRepository::class
+        );
+
+        $this->app->bind(
+            \App\Interfaces\VacationRepositoryInterface::class,
+            \App\Repositories\VacationRepository::class
+        );
     }
 
     public function boot()
@@ -64,6 +74,18 @@ class AppServiceProvider extends ServiceProvider
             ->needs(\App\Models\AdministrationOrder::class)
             ->give(function () {
                 return new \App\Models\AdministrationOrder();
+            });
+
+        $this->app->when(\App\Repositories\VacationTypeRepository::class)
+            ->needs(\App\Models\VacationType::class)
+            ->give(function () {
+                return new \App\Models\VacationType();
+            });
+
+        $this->app->when(\App\Repositories\VacationRepository::class)
+            ->needs(\App\Models\Vacation::class)
+            ->give(function () {
+                return new \App\Models\Vacation();
             });
     }
 }

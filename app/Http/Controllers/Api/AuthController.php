@@ -20,19 +20,27 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::with('role')->where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+        $permissions = $this->getUserPermissions($user);
+        $user->makeHidden('role')->setAttribute('role_name', $user->role?->name);
+        $user->setAttribute('permissions', $permissions);
 
         return response()->json([
             'status' => 'success',
             'token' => $user->createToken('auth-token')->plainTextToken,
-            'user' => $user
+            'user' => $user,
         ]);
+    }
+    private function getUserPermissions($user)
+    {
+        // Otherwise return role-specific permissions
+        return $user->role?->permissions ?? [];
     }
 
     /**
