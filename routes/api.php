@@ -8,7 +8,10 @@ use App\Http\Controllers\Api\CategoryGroupController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\AdministrationOrderController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RolePermissionController;
+use App\Http\Controllers\Api\VacationController;
+use App\Http\Controllers\Api\VacationTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +42,10 @@ use Illuminate\Support\Facades\Route;
         Route::resource('branches', BranchController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('administration-orders', AdministrationOrderController::class);
+        Route::apiResource('vacations', VacationController::class);
+        Route::apiResource('vacation-types', VacationTypeController::class);
         Route::get('roles/permissions-map', [RolePermissionController::class, 'available']);
         Route::put('roles/{role}/permissions', [RolePermissionController::class, 'update']);
+        Route::apiResource('roles', RoleController::class);
         
     });

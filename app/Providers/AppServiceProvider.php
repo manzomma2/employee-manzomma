@@ -37,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            \App\Interfaces\RoleRepositoryInterface::class,
+            \App\Repositories\RoleRepository::class
+        );
+
+        $this->app->bind(
             \App\Interfaces\VacationTypeRepositoryInterface::class,
             \App\Repositories\VacationTypeRepository::class
         );
@@ -74,6 +79,12 @@ class AppServiceProvider extends ServiceProvider
             ->needs(\App\Models\AdministrationOrder::class)
             ->give(function () {
                 return new \App\Models\AdministrationOrder();
+            });
+
+        $this->app->when(\App\Repositories\RoleRepository::class)
+            ->needs(\App\Models\Role::class)
+            ->give(function () {
+                return new \App\Models\Role();
             });
 
         $this->app->when(\App\Repositories\VacationTypeRepository::class)

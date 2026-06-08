@@ -26,6 +26,8 @@ class PermissionService
             'branches' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
             'departments' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
             'administration_orders' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
+            'vacations' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
+            'vacation_types' => ['list_view', 'detailed_view', 'create', 'update', 'delete'],
         ];
     }
 
@@ -52,6 +54,8 @@ class PermissionService
             'branches' => ['list_view', 'detailed_view'],
             'departments' => ['list_view', 'detailed_view'],
             'administration_orders' => ['list_view', 'detailed_view', 'create', 'update'],
+            'vacations' => ['list_view', 'detailed_view', 'create', 'update'],
+            'vacation_types' => ['list_view', 'detailed_view', 'create', 'update'],
         ];
     }
 
