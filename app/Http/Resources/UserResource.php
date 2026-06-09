@@ -13,6 +13,10 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'role_id' => $this->role_id,
+            'sector_id' => $this->sector_id,
+            'role' => new RoleAdminResource($this->whenLoaded('role')),
+            'sector' => new SectorResource($this->whenLoaded('sector')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

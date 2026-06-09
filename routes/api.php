@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\DepartmentController;
 use App\Http\Controllers\Api\AdministrationOrderController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RolePermissionController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VacationController;
 use App\Http\Controllers\Api\VacationTypeController;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ use Illuminate\Support\Facades\Route;
     Route::middleware('auth:sanctum')->group(function () {
         // User routes
         Route::get('/user', [AuthController::class, 'user']);
+        Route::apiResource('users', UserController::class);
         
         // Employee resource routes
         Route::resource('employees', EmployeeController::class);
