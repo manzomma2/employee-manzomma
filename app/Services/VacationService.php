@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Services;
+
+use App\Interfaces\VacationRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class VacationService
+{
+    protected $vacationRepository;
+
+    public function __construct(VacationRepositoryInterface $vacationRepository)
+    {
+        $this->vacationRepository = $vacationRepository;
+    }
+
+    public function index($perPage): LengthAwarePaginator
+    {
+        return $this->vacationRepository->index($perPage);
+    }
+
+    public function show($id)
+    {
+        return $this->vacationRepository->show($id);
+    }
+
+    public function store(array $data)
+    {
+        return $this->vacationRepository->store($data);
+    }
+
+    public function update($id, array $data)
+    {
+        return $this->vacationRepository->update($id, $data);
+    }
+
+    public function delete($id): bool
+    {
+        return $this->vacationRepository->delete($id);
+    }
+}

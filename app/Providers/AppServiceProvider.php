@@ -55,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\VacationRepositoryInterface::class,
             \App\Repositories\VacationRepository::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\HospitalRepositoryInterface::class,
+            \App\Repositories\HospitalRepository::class
+        );
     }
 
     public function boot()
@@ -108,6 +113,12 @@ class AppServiceProvider extends ServiceProvider
             ->needs(\App\Models\Vacation::class)
             ->give(function () {
                 return new \App\Models\Vacation();
+            });
+
+        $this->app->when(\App\Repositories\HospitalRepository::class)
+            ->needs(\App\Models\Hospital::class)
+            ->give(function () {
+                return new \App\Models\Hospital();
             });
     }
 }

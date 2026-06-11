@@ -73,6 +73,11 @@ class Employee extends Model
         return $this->hasMany(AdministrationOrder::class);
     }
 
+    public function vacations()
+    {
+        return $this->hasMany(Vacation::class);
+    }
+
     public function latestAdministrationOrder()
     {
         return $this->hasOne(AdministrationOrder::class)
