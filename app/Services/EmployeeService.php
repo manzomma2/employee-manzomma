@@ -12,9 +12,9 @@ class EmployeeService
         $this->employeeRepository = $employeeRepository;
     }
 
-    public function index($perPage): LengthAwarePaginator
+    public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        return $this->employeeRepository->index($perPage);
+        return $this->employeeRepository->index($perPage, $filters);
     }
 
     public function show($id)

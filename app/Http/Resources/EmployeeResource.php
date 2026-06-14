@@ -34,6 +34,9 @@ class EmployeeResource extends JsonResource
             'administration_orders' => $this->whenLoaded('administrationOrders', function () {
                 return AdministrationOrderResource::collection($this->administrationOrders->sortByDesc('created_at')->values());
             }),
+            'current_vacation' => $this->whenLoaded('currentVacation', function () {
+                return $this->currentVacation ? new VacationResource($this->currentVacation) : null;
+            }),
             'photo' => $this->photo,
             'phone' => $this->phone,
             'hire_date' => $this->hire_date ? $this->hire_date->format('Y-m-d') : null,

@@ -36,7 +36,6 @@ class UpdateVacationRequest extends FormRequest
             'start_date' => 'sometimes|required|date',
             'end_date' => 'sometimes|required|date|after_or_equal:start_date',
             'pre_end_date' => 'nullable|date|after_or_equal:start_date',
-            'color' => 'nullable|string|max:50',
             'notes' => 'nullable|string',
             'extension_notes' => 'nullable|string',
             'cut_note' => 'nullable|string',

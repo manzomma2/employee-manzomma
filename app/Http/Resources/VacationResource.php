@@ -16,7 +16,6 @@ class VacationResource extends JsonResource
             'start_date' => $this->start_date ? $this->start_date->format('Y-m-d') : null,
             'end_date' => $this->end_date ? $this->end_date->format('Y-m-d') : null,
             'pre_end_date' => $this->pre_end_date ? $this->pre_end_date->format('Y-m-d') : null,
-            'color' => $this->color,
             'notes' => $this->notes,
             'extension_notes' => $this->extension_notes,
             'cut_note' => $this->cut_note,

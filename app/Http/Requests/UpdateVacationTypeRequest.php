@@ -22,6 +22,7 @@ class UpdateVacationTypeRequest extends FormRequest
                 'max:255',
                 Rule::unique('vacation_types', 'name')->ignore($this->route('vacation_type')),
             ],
+            'color' => 'nullable|string|max:50',
         ];
     }
 

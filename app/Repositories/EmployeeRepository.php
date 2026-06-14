@@ -15,14 +15,51 @@ class EmployeeRepository implements EmployeeRepositoryInterface
         $this->model = $employee;
     }
 
-    public function index($perPage): LengthAwarePaginator
+    public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders'])->latest()->paginate($perPage);
+        $query = $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders','currentVacation.vacationType','currentVacation.vacationHospital.hospital']);
+
+        if (! empty($filters['sector_id'])) {
+            $query->whereHas('latestAdministrationOrder', function ($query) use ($filters) {
+                $query->where('sector_id', $filters['sector_id']);
+            });
+        }
+
+        if (! empty($filters['department_id'])) {
+            $query->whereHas('latestAdministrationOrder', function ($query) use ($filters) {
+                $query->where('department_id', $filters['department_id']);
+            });
+        }
+
+        if (! empty($filters['branch_id'])) {
+            $query->whereHas('latestAdministrationOrder.department', function ($query) use ($filters) {
+                $query->where('branch_id', $filters['branch_id']);
+            });
+        }
+
+        if (! empty($filters['category_group_id'])) {
+            $query->whereHas('categoryGroup', function ($query) use ($filters) {
+                $query->where('category_group_id', $filters['category_group_id']);
+            });
+        }
+
+        if (! empty($filters['religion'])) {
+            $query->where('religion', $filters['religion']);
+        }
+
+        if (! empty($filters['name'])) {
+            $query->where(function ($query) use ($filters) {
+                $query->where('first_name', 'like', '%' . $filters['name'] . '%')
+                    ->orWhere('last_name', 'like', '%' . $filters['name'] . '%');
+            });
+        }
+
+        return $query->latest()->paginate($perPage);
     }
 
     public function show($id)
     {
-        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders'])->findOrFail($id);
+        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders','currentVacation.vacationType','currentVacation.vacationHospital.hospital'])->findOrFail($id);
     }
 
     public function store(array $data)

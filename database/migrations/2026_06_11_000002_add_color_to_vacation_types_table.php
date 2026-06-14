@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('vacations', function (Blueprint $table) {
-            $table->string('color', 50)->nullable()->after('pre_end_date');
+        Schema::table('vacation_types', function (Blueprint $table) {
+            $table->string('color', 50)->nullable()->after('name');
         });
     }
 
     public function down(): void
     {
-        Schema::table('vacations', function (Blueprint $table) {
+        Schema::table('vacation_types', function (Blueprint $table) {
             $table->dropColumn('color');
         });
-    }
+    } 
 };

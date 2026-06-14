@@ -77,6 +77,10 @@ class Employee extends Model
     {
         return $this->hasMany(Vacation::class);
     }
+    public function currentVacation()
+    {
+        return $this->hasOne(Vacation::class)->where('status', 'active');
+    }
 
     public function latestAdministrationOrder()
     {

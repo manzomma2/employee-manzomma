@@ -15,6 +15,7 @@ class StoreVacationTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:vacation_types,name',
+            'color' => 'nullable|string|max:50'
         ];
     }
 

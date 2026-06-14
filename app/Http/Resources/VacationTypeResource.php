@@ -12,6 +12,7 @@ class VacationTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'color' => $this->color,
             'vacations' => VacationResource::collection($this->whenLoaded('vacations')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

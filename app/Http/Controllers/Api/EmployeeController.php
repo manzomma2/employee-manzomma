@@ -26,7 +26,17 @@ class EmployeeController extends Controller
     public function index(): JsonResponse
     {
         $perPage = request()->get('per_page', 15);
-        $employees = $this->employeeService->index($perPage);
+        $filters = request()->only([
+            'sector_id',
+            'branch_id',
+            'department_id',
+            // 'job_group_id',
+            'category_group_id',
+            'religion',
+            'name',
+        ]);
+
+        $employees = $this->employeeService->index($perPage, $filters);
         return response()->json([
             'status' => 'success',
             'data' => EmployeeResource::collection($employees)
