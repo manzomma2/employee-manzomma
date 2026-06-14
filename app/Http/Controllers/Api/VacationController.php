@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CutVacationRequest;
+use App\Http\Requests\ExtendVacationRequest;
 use App\Http\Requests\StoreVacationRequest;
 use App\Http\Requests\UpdateVacationRequest;
 use App\Http\Resources\VacationResource;
@@ -19,7 +21,7 @@ class VacationController extends Controller
         $this->middleware('permission:vacations,list_view')->only('index');
         $this->middleware('permission:vacations,detailed_view')->only('show');
         $this->middleware('permission:vacations,create')->only('store');
-        $this->middleware('permission:vacations,update')->only('update');
+        $this->middleware('permission:vacations,update')->only(['update', 'cut', 'extend']);
         $this->middleware('permission:vacations,delete')->only('destroy');
     }
 
@@ -62,6 +64,28 @@ class VacationController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Vacation updated successfully',
+            'data' => new VacationResource($vacation),
+        ]);
+    }
+
+    public function cut(CutVacationRequest $request, $id): JsonResponse
+    {
+        $vacation = $this->vacationService->cut($id, $request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Vacation cut successfully',
+            'data' => new VacationResource($vacation),
+        ]);
+    }
+
+    public function extend(ExtendVacationRequest $request, $id): JsonResponse
+    {
+        $vacation = $this->vacationService->extend($id, $request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Vacation extended successfully',
             'data' => new VacationResource($vacation),
         ]);
     }

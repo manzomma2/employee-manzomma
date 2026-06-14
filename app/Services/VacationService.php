@@ -34,6 +34,16 @@ class VacationService
         return $this->vacationRepository->update($id, $data);
     }
 
+    public function cut($id, array $data)
+    {
+        return $this->vacationRepository->cut($id, $data);
+    }
+
+    public function extend($id, array $data)
+    {
+        return $this->vacationRepository->extend($id, $data);
+    }
+
     public function delete($id): bool
     {
         return $this->vacationRepository->delete($id);

@@ -14,7 +14,6 @@ class Vacation extends Model
         'start_date',
         'end_date',
         'pre_end_date',
-        'color',
         'notes',
         'extension_notes',
         'cut_note',

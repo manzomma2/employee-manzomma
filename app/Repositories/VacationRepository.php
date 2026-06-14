@@ -6,6 +6,7 @@ use App\Interfaces\VacationRepositoryInterface;
 use App\Models\Vacation;
 use App\Models\VacationType;
 use App\Traits\VacationTrait;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -65,6 +66,41 @@ class VacationRepository implements VacationRepositoryInterface
             } else {
                 $vacation->vacationHospital?->delete();
             }
+
+            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+        });
+    }
+
+    public function cut($id, array $data)
+    {
+        return DB::transaction(function () use ($id, $data) {
+            $vacation = $this->model->findOrFail($id);
+            $cutDate = Carbon::parse($data['cut_date']);
+            $oldEndDate = Carbon::parse($vacation->end_date);
+
+            $vacation->update([
+                'pre_end_date' => $vacation->end_date,
+                'end_date' => $cutDate->toDateString(),
+                'cut_note' => 'قطع اجازة فى تاريخ ' . $cutDate->format('Y-m-d H:i') . ' بدلا من  ' . $oldEndDate->format('Y-m-d H:i:s'),
+                'status' => 'completed',
+            ]);
+
+            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+        });
+    }
+
+    public function extend($id, array $data)
+    {
+        return DB::transaction(function () use ($id, $data) {
+            $vacation = $this->model->findOrFail($id);
+            $extensionDate = Carbon::parse($data['extension_date']);
+            $oldEndDate = Carbon::parse($vacation->end_date);
+
+            $vacation->update([
+                'pre_end_date' => $vacation->end_date,
+                'end_date' => $extensionDate->toDateString(),
+                'extension_notes' => 'امتداد من ' . $oldEndDate->format('Y-m-d') . ' الى ' . $extensionDate->format('Y-m-d'),
+            ]);
 
             return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
         });

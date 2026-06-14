@@ -46,6 +46,8 @@ use Illuminate\Support\Facades\Route;
         Route::resource('departments', DepartmentController::class);
         Route::resource('administration-orders', AdministrationOrderController::class);
         Route::apiResource('hospitals', HospitalController::class);
+        Route::patch('vacations/{vacation}/cut', [VacationController::class, 'cut']);
+        Route::patch('vacations/{vacation}/extend', [VacationController::class, 'extend']);
         Route::apiResource('vacations', VacationController::class);
         Route::apiResource('vacation-types', VacationTypeController::class);
         Route::get('roles/permissions-map', [RolePermissionController::class, 'available']);
