@@ -21,7 +21,7 @@ class VacationController extends Controller
         $this->middleware('permission:vacations,list_view')->only('index');
         $this->middleware('permission:vacations,detailed_view')->only('show');
         $this->middleware('permission:vacations,create')->only('store');
-        $this->middleware('permission:vacations,update')->only(['update', 'cut', 'extend']);
+        $this->middleware('permission:vacations,update')->only(['update', 'cut', 'extend', 'complete']);
         $this->middleware('permission:vacations,delete')->only('destroy');
     }
 
@@ -86,6 +86,17 @@ class VacationController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Vacation extended successfully',
+            'data' => new VacationResource($vacation),
+        ]);
+    }
+
+    public function complete($id): JsonResponse
+    {
+        $vacation = $this->vacationService->complete($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Vacation completed successfully',
             'data' => new VacationResource($vacation),
         ]);
     }

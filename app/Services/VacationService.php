@@ -44,6 +44,11 @@ class VacationService
         return $this->vacationRepository->extend($id, $data);
     }
 
+    public function complete($id)
+    {
+        return $this->vacationRepository->complete($id);
+    }
+
     public function delete($id): bool
     {
         return $this->vacationRepository->delete($id);

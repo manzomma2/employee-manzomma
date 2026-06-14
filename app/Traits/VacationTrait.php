@@ -11,24 +11,29 @@ trait VacationTrait
 {
     protected function prepareVacationDataForStore(array $data): array
     {
-        $currentVacation = $this->currentActiveVacationForEmployee($data['employee_id']);
+        $requestedStartDate = Carbon::parse($data['start_date'])->startOfDay();
+        $requestedEndDate = Carbon::parse($data['end_date'])->startOfDay();
+        $today = Carbon::today();
 
-        if (! $currentVacation) {
-            return $data;
-        }
-
-        $requestedStartDate = Carbon::parse($data['start_date']);
-
-        if (
-            $requestedStartDate->gte($currentVacation->start_date)
-            && $requestedStartDate->lte($currentVacation->end_date)
-        ) {
+        if ($requestedStartDate->lt($today)) {
             throw ValidationException::withMessages([
-                'start_date' => 'This employee has an active vacation in this period time.',
+                'start_date' => 'You cannot create a vacation in a previous period.',
             ]);
         }
 
-        if ($requestedStartDate->gt($currentVacation->end_date)) {
+        if ($this->vacationExistsInPeriod($data['employee_id'], $requestedStartDate, $requestedEndDate)) {
+            throw ValidationException::withMessages([
+                'start_date' => 'This employee already has a vacation in this period time.',
+            ]);
+        }
+
+        if ($requestedStartDate->gt($today)) {
+            if ($this->futureVacationForEmployee($data['employee_id'])) {
+                throw ValidationException::withMessages([
+                    'start_date' => 'This employee already has a future vacation.',
+                ]);
+            }
+
             $data['status'] = 'scedual';
         }
 
@@ -42,6 +47,32 @@ trait VacationTrait
             ->latest('start_date')
             ->first();
     }
+
+    protected function vacationExistsInPeriod($employeeId, Carbon $startDate, Carbon $endDate): bool
+    {
+        return Vacation::where('employee_id', $employeeId)
+            ->whereDate('start_date', '<=', $endDate->toDateString())
+            ->whereDate('end_date', '>=', $startDate->toDateString())
+            ->exists();
+    }
+
+    protected function futureVacationForEmployee($employeeId): ?Vacation
+    {
+        return Vacation::where('employee_id', $employeeId)
+            ->whereDate('start_date', '>', Carbon::today()->toDateString())
+            ->where('status', '!=', 'completed')
+            ->latest('start_date')
+            ->first();
+    }
+
+    protected function scheduledVacationForEmployee($employeeId): ?Vacation
+    {
+        return Vacation::where('employee_id', $employeeId)
+            ->where('status', 'scedual')
+            ->latest('start_date')
+            ->first();
+    }
+
     protected function extractHospitalData(array &$data): array
     {
         $hospitalData = [

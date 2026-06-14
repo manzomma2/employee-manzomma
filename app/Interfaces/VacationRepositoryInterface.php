@@ -12,5 +12,6 @@ interface VacationRepositoryInterface
     public function update($id, array $data);
     public function cut($id, array $data);
     public function extend($id, array $data);
+    public function complete($id);
     public function delete($id): bool;
 }

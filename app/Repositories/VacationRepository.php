@@ -9,6 +9,7 @@ use App\Traits\VacationTrait;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Validation\ValidationException;
 
 class VacationRepository implements VacationRepositoryInterface
 {
@@ -100,6 +101,26 @@ class VacationRepository implements VacationRepositoryInterface
                 'pre_end_date' => $vacation->end_date,
                 'end_date' => $extensionDate->toDateString(),
                 'extension_notes' => 'امتداد من ' . $oldEndDate->format('Y-m-d') . ' الى ' . $extensionDate->format('Y-m-d'),
+            ]);
+
+            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+        });
+    }
+
+    public function complete($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $vacation = $this->model->findOrFail($id);
+            $endDate = Carbon::parse($vacation->end_date);
+
+            if (! $endDate->isToday()) {
+                throw ValidationException::withMessages([
+                    'end_date' => 'Vacation can only be completed when the end date is today.',
+                ]);
+            }
+
+            $vacation->update([
+                'status' => 'completed',
             ]);
 
             return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
