@@ -17,7 +17,6 @@ class Vacation extends Model
         'notes',
         'extension_notes',
         'cut_note',
-        'returning',
         'status',
     ];
 
@@ -25,7 +24,6 @@ class Vacation extends Model
         'start_date' => 'date:Y-m-d',
         'end_date' => 'date:Y-m-d',
         'pre_end_date' => 'date:Y-m-d',
-        'returning' => 'integer',
     ];
 
     public function employee(): BelongsTo

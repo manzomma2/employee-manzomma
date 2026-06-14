@@ -39,7 +39,6 @@ class UpdateVacationRequest extends FormRequest
             'notes' => 'nullable|string',
             'extension_notes' => 'nullable|string',
             'cut_note' => 'nullable|string',
-            'returning' => 'nullable|integer|between:0,1',
             'status' => ['sometimes', 'required', Rule::in(['active', 'scedual', 'completed'])],
             'hospital_id' => [
                 Rule::requiredIf($needsHospitalData),

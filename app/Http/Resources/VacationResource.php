@@ -19,7 +19,6 @@ class VacationResource extends JsonResource
             'notes' => $this->notes,
             'extension_notes' => $this->extension_notes,
             'cut_note' => $this->cut_note,
-            'returning' => $this->returning,
             'status' => $this->status,
             'employee' => $this->whenLoaded('employee', function () {
                 return new EmployeeResource($this->employee);

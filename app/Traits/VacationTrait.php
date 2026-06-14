@@ -29,7 +29,6 @@ trait VacationTrait
         }
 
         if ($requestedStartDate->gt($currentVacation->end_date)) {
-            $data['returning'] = 1;
             $data['status'] = 'scedual';
         }
 

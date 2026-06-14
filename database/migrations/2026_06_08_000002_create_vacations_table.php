@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->text('extension_notes')->nullable();
             $table->text('cut_note')->nullable();
-            $table->tinyInteger('returning')->default(0)
-                ->comment('0 = not returned, 1 = returned');
             $table->enum('status', ['active', 'scedual', 'completed'])->default('active');
             $table->timestamps();
 

@@ -24,7 +24,6 @@ class StoreVacationRequest extends FormRequest
             'notes' => 'nullable|string',
             'extension_notes' => 'nullable|string',
             'cut_note' => 'nullable|string',
-            'returning' => 'nullable|integer|between:0,1',
             'status' => ['nullable', Rule::in(['active', 'scedual', 'completed'])],
             'hospital_id' => [
                 Rule::requiredIf(VacationTypeId::isHospital($this->input('vacation_type_id'))),
