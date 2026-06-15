@@ -16,6 +16,12 @@ class VacationRepository implements VacationRepositoryInterface
     use VacationTrait;
 
     protected $model;
+    protected array $relations = [
+        'employee.latestAdministrationOrder.sector',
+        'employee.latestAdministrationOrder.department.branch',
+        'vacationType',
+        'vacationHospital.hospital',
+    ];
 
     public function __construct(Vacation $vacation)
     {
@@ -25,14 +31,14 @@ class VacationRepository implements VacationRepositoryInterface
     public function index($perPage): LengthAwarePaginator
     {
         return $this->model
-            ->with(['employee', 'vacationType', 'vacationHospital.hospital'])
+            ->with($this->relations)
             ->latest()
             ->paginate($perPage);
     }
 
     public function show($id)
     {
-        return $this->model->with(['employee', 'vacationType', 'vacationHospital.hospital'])->findOrFail($id);
+        return $this->model->with($this->relations)->findOrFail($id);
     }
 
     public function store(array $data)
@@ -47,7 +53,7 @@ class VacationRepository implements VacationRepositoryInterface
                 $vacation->vacationHospital()->create($hospitalData);
             }
 
-            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+            return $vacation->fresh($this->relations);
         });
     }
 
@@ -68,7 +74,7 @@ class VacationRepository implements VacationRepositoryInterface
                 $vacation->vacationHospital?->delete();
             }
 
-            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+            return $vacation->fresh($this->relations);
         });
     }
 
@@ -86,7 +92,7 @@ class VacationRepository implements VacationRepositoryInterface
                 'status' => 'completed',
             ]);
 
-            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+            return $vacation->fresh($this->relations);
         });
     }
 
@@ -103,7 +109,7 @@ class VacationRepository implements VacationRepositoryInterface
                 'extension_notes' => 'امتداد من ' . $oldEndDate->format('Y-m-d') . ' الى ' . $extensionDate->format('Y-m-d'),
             ]);
 
-            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+            return $vacation->fresh($this->relations);
         });
     }
 
@@ -123,7 +129,7 @@ class VacationRepository implements VacationRepositoryInterface
                 'status' => 'completed',
             ]);
 
-            return $vacation->fresh(['employee', 'vacationType', 'vacationHospital.hospital']);
+            return $vacation->fresh($this->relations);
         });
     }
 

@@ -17,7 +17,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        $query = $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders','currentVacation.vacationType','currentVacation.vacationHospital.hospital']);
+        $query = $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder.sector','latestAdministrationOrder.department.branch','administrationOrders.sector','administrationOrders.department.branch','currentVacation.vacationType','currentVacation.vacationHospital.hospital']);
 
         if (! empty($filters['sector_id'])) {
             $query->whereHas('latestAdministrationOrder', function ($query) use ($filters) {
@@ -59,7 +59,7 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function show($id)
     {
-        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder','administrationOrders','currentVacation.vacationType','currentVacation.vacationHospital.hospital'])->findOrFail($id);
+        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder.sector','latestAdministrationOrder.department.branch','administrationOrders.sector','administrationOrders.department.branch','currentVacation.vacationType','currentVacation.vacationHospital.hospital'])->findOrFail($id);
     }
 
     public function store(array $data)

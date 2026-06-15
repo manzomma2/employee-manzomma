@@ -85,7 +85,6 @@ class Employee extends Model
     public function latestAdministrationOrder()
     {
         return $this->hasOne(AdministrationOrder::class)
-            ->where('active', true)
-            ->latest('created_at');
+            ->where('active', true);
     }
 }
