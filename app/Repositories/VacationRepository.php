@@ -44,6 +44,17 @@ class VacationRepository implements VacationRepositoryInterface
         return $this->model->with($this->relations)->findOrFail($id);
     }
 
+    public function employeePeriod(array $data)
+    {
+        return $this->model
+            ->with($this->relations)
+            ->where('employee_id', $data['employee_id'])
+            ->whereDate('start_date', '<=', $data['to_date'])
+            ->whereDate('end_date', '>=', $data['from_date'])
+            ->latest('start_date')
+            ->get();
+    }
+
     public function store(array $data)
     {
         $data = $this->prepareVacationDataForStore($data);

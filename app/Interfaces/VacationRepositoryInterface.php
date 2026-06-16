@@ -8,6 +8,7 @@ interface VacationRepositoryInterface
 {
     public function index($perPage, array $filters = []): LengthAwarePaginator;
     public function show($id);
+    public function employeePeriod(array $data);
     public function store(array $data);
     public function update($id, array $data);
     public function cut($id, array $data);

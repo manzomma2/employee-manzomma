@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CutVacationRequest;
+use App\Http\Requests\EmployeeVacationPeriodRequest;
 use App\Http\Requests\ExtendVacationRequest;
 use App\Http\Requests\StoreVacationRequest;
 use App\Http\Requests\UpdateVacationRequest;
@@ -19,6 +20,7 @@ class VacationController extends Controller
     {
         $this->vacationService = $vacationService;
         $this->middleware('permission:vacations,list_view')->only('index');
+        $this->middleware('permission:vacations,list_view')->only('employeePeriod');
         $this->middleware('permission:vacations,detailed_view')->only('show');
         $this->middleware('permission:vacations,create')->only('store');
         $this->middleware('permission:vacations,update')->only(['update', 'cut', 'extend', 'complete']);
@@ -30,6 +32,16 @@ class VacationController extends Controller
         $perPage = request()->get('per_page', 15);
         $filters = request()->except(['page', 'per_page']);
         $vacations = $this->vacationService->index($perPage, $filters);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => VacationResource::collection($vacations),
+        ]);
+    }
+
+    public function employeePeriod(EmployeeVacationPeriodRequest $request): JsonResponse
+    {
+        $vacations = $this->vacationService->employeePeriod($request->validated());
 
         return response()->json([
             'status' => 'success',

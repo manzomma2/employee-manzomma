@@ -24,6 +24,11 @@ class VacationService
         return $this->vacationRepository->show($id);
     }
 
+    public function employeePeriod(array $data)
+    {
+        return $this->vacationRepository->employeePeriod($data);
+    }
+
     public function store(array $data)
     {
         return $this->vacationRepository->store($data);
