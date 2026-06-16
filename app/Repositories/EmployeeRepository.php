@@ -4,12 +4,21 @@ namespace App\Repositories;
 
 use App\Interfaces\EmployeeRepositoryInterface;
 use App\Models\Employee;
+use App\Traits\EmployeeFilterTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EmployeeRepository implements EmployeeRepositoryInterface
 {
-    protected $model;
+    use EmployeeFilterTrait;
 
+    protected $model;
+    protected array $relations = [
+        'sector','categoryGroup','careerProgressions','trainingCourses',
+        'deductions','performanceEvaluations','settlements','bonuses','incentives',
+        'latestAdministrationOrder.sector','latestAdministrationOrder.department.branch',
+        'administrationOrders.sector','administrationOrders.department.branch','currentVacation.vacationType',
+        'currentVacation.vacationHospital.hospital'
+    ];
     public function __construct(Employee $employee)
     {
         $this->model = $employee;
@@ -17,49 +26,16 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        $query = $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder.sector','latestAdministrationOrder.department.branch','administrationOrders.sector','administrationOrders.department.branch','currentVacation.vacationType','currentVacation.vacationHospital.hospital']);
+        $query = $this->model->with($this->relations);
 
-        if (! empty($filters['sector_id'])) {
-            $query->whereHas('latestAdministrationOrder', function ($query) use ($filters) {
-                $query->where('sector_id', $filters['sector_id']);
-            });
-        }
-
-        if (! empty($filters['department_id'])) {
-            $query->whereHas('latestAdministrationOrder', function ($query) use ($filters) {
-                $query->where('department_id', $filters['department_id']);
-            });
-        }
-
-        if (! empty($filters['branch_id'])) {
-            $query->whereHas('latestAdministrationOrder.department', function ($query) use ($filters) {
-                $query->where('branch_id', $filters['branch_id']);
-            });
-        }
-
-        if (! empty($filters['category_group_id'])) {
-            $query->whereHas('categoryGroup', function ($query) use ($filters) {
-                $query->where('category_group_id', $filters['category_group_id']);
-            });
-        }
-
-        if (! empty($filters['religion'])) {
-            $query->where('religion', $filters['religion']);
-        }
-
-        if (! empty($filters['name'])) {
-            $query->where(function ($query) use ($filters) {
-                $query->where('first_name', 'like', '%' . $filters['name'] . '%')
-                    ->orWhere('last_name', 'like', '%' . $filters['name'] . '%');
-            });
-        }
+        $this->applyEmployeeFilters($query, $filters);
 
         return $query->latest()->paginate($perPage);
     }
 
     public function show($id)
     {
-        return $this->model->with(['sector', 'categoryGroup','careerProgressions','trainingCourses','deductions','performanceEvaluations','settlements','bonuses','incentives','latestAdministrationOrder.sector','latestAdministrationOrder.department.branch','administrationOrders.sector','administrationOrders.department.branch','currentVacation.vacationType','currentVacation.vacationHospital.hospital'])->findOrFail($id);
+        return $this->model->with($this->relations)->findOrFail($id);
     }
 
     public function store(array $data)

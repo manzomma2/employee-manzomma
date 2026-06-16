@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\VacationRepositoryInterface;
 use App\Models\Vacation;
 use App\Models\VacationType;
+use App\Traits\EmployeeFilterTrait;
 use App\Traits\VacationTrait;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 
 class VacationRepository implements VacationRepositoryInterface
 {
+    use EmployeeFilterTrait;
     use VacationTrait;
 
     protected $model;
@@ -28,12 +30,13 @@ class VacationRepository implements VacationRepositoryInterface
         $this->model = $vacation;
     }
 
-    public function index($perPage): LengthAwarePaginator
+    public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        return $this->model
-            ->with($this->relations)
-            ->latest()
-            ->paginate($perPage);
+        $query = $this->model->with($this->relations);
+
+        $this->applyEmployeeFilters($query, $filters, 'employee');
+
+        return $query->latest()->paginate($perPage);
     }
 
     public function show($id)

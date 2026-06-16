@@ -26,15 +26,7 @@ class EmployeeController extends Controller
     public function index(): JsonResponse
     {
         $perPage = request()->get('per_page', 15);
-        $filters = request()->only([
-            'sector_id',
-            'branch_id',
-            'department_id',
-            // 'job_group_id',
-            'category_group_id',
-            'religion',
-            'name',
-        ]);
+        $filters = request()->except(['page', 'per_page']);
 
         $employees = $this->employeeService->index($perPage, $filters);
         return response()->json([

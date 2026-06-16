@@ -14,9 +14,9 @@ class VacationService
         $this->vacationRepository = $vacationRepository;
     }
 
-    public function index($perPage): LengthAwarePaginator
+    public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        return $this->vacationRepository->index($perPage);
+        return $this->vacationRepository->index($perPage, $filters);
     }
 
     public function show($id)

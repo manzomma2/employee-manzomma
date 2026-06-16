@@ -28,7 +28,8 @@ class VacationController extends Controller
     public function index(): JsonResponse
     {
         $perPage = request()->get('per_page', 15);
-        $vacations = $this->vacationService->index($perPage);
+        $filters = request()->except(['page', 'per_page']);
+        $vacations = $this->vacationService->index($perPage, $filters);
 
         return response()->json([
             'status' => 'success',
