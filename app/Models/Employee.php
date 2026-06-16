@@ -77,9 +77,25 @@ class Employee extends Model
     {
         return $this->hasMany(Vacation::class);
     }
+
     public function currentVacation()
     {
-        return $this->hasOne(Vacation::class)->where('status', 'active');
+        return $this->hasOne(Vacation::class)
+            ->where('status', 'active');
+    }
+
+    public function scheduledVacation()
+    {
+        return $this->hasOne(Vacation::class)
+            ->where('status', 'scedual')
+            ->latestOfMany('start_date');
+    }
+
+    public function lastCompletedVacation()
+    {
+        return $this->hasOne(Vacation::class)
+            ->where('status', 'completed')
+            ->latestOfMany('end_date');
     }
 
     public function latestAdministrationOrder()

@@ -27,10 +27,24 @@ trait VacationTrait
             ]);
         }
 
-        if ($requestedStartDate->gt($today)) {
-            if ($this->futureVacationForEmployee($data['employee_id'])) {
+        $currentVacation = $this->currentActiveVacationForEmployee($data['employee_id']);
+
+        if (! $currentVacation) {
+            $data['status'] = 'active';
+
+            return $data;
+        }
+
+        if ($requestedStartDate->lte($currentVacation->end_date)) {
+            throw ValidationException::withMessages([
+                'start_date' => 'The next vacation must start after the active vacation end date.',
+            ]);
+        }
+
+        if ($requestedStartDate->gt($currentVacation->end_date)) {
+            if ($this->scheduledVacationForEmployee($data['employee_id'])) {
                 throw ValidationException::withMessages([
-                    'start_date' => 'This employee already has a future vacation.',
+                    'start_date' => 'This employee already has a scheduled future vacation.',
                 ]);
             }
 
@@ -54,15 +68,6 @@ trait VacationTrait
             ->whereDate('start_date', '<=', $endDate->toDateString())
             ->whereDate('end_date', '>=', $startDate->toDateString())
             ->exists();
-    }
-
-    protected function futureVacationForEmployee($employeeId): ?Vacation
-    {
-        return Vacation::where('employee_id', $employeeId)
-            ->whereDate('start_date', '>', Carbon::today()->toDateString())
-            ->where('status', '!=', 'completed')
-            ->latest('start_date')
-            ->first();
     }
 
     protected function scheduledVacationForEmployee($employeeId): ?Vacation

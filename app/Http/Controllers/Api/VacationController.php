@@ -8,6 +8,7 @@ use App\Http\Requests\EmployeeVacationPeriodRequest;
 use App\Http\Requests\ExtendVacationRequest;
 use App\Http\Requests\StoreVacationRequest;
 use App\Http\Requests\UpdateVacationRequest;
+use App\Http\Resources\EmployeeVacationSummaryResource;
 use App\Http\Resources\VacationResource;
 use App\Services\VacationService;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +36,7 @@ class VacationController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => VacationResource::collection($vacations),
+            'data' => EmployeeVacationSummaryResource::collection($vacations),
         ]);
     }
 

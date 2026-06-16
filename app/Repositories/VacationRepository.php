@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\VacationRepositoryInterface;
+use App\Models\Employee;
 use App\Models\Vacation;
 use App\Models\VacationType;
 use App\Traits\EmployeeFilterTrait;
@@ -18,6 +19,7 @@ class VacationRepository implements VacationRepositoryInterface
     use VacationTrait;
 
     protected $model;
+    protected $employeeModel;
     protected array $relations = [
         'employee.latestAdministrationOrder.sector',
         'employee.latestAdministrationOrder.department.branch',
@@ -25,16 +27,30 @@ class VacationRepository implements VacationRepositoryInterface
         'vacationHospital.hospital',
     ];
 
-    public function __construct(Vacation $vacation)
+    protected array $employeeVacationSummaryRelations = [
+        'latestAdministrationOrder.sector',
+        'latestAdministrationOrder.department.branch',
+        'currentVacation.vacationType',
+        'currentVacation.vacationHospital.hospital',
+        'scheduledVacation.vacationType',
+        'scheduledVacation.vacationHospital.hospital',
+        'lastCompletedVacation.vacationType',
+        'lastCompletedVacation.vacationHospital.hospital',
+    ];
+
+    public function __construct(Vacation $vacation, Employee $employee)
     {
         $this->model = $vacation;
+        $this->employeeModel = $employee;
     }
 
     public function index($perPage, array $filters = []): LengthAwarePaginator
     {
-        $query = $this->model->with($this->relations);
+        $query = $this->employeeModel
+            ->select(['id', 'first_name', 'last_name', 'job_title', 'phone'])
+            ->with($this->employeeVacationSummaryRelations);
 
-        $this->applyEmployeeFilters($query, $filters, 'employee');
+        $this->applyEmployeeFilters($query, $filters);
 
         return $query->latest()->paginate($perPage);
     }

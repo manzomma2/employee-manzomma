@@ -115,6 +115,12 @@ class AppServiceProvider extends ServiceProvider
                 return new \App\Models\Vacation();
             });
 
+        $this->app->when(\App\Repositories\VacationRepository::class)
+            ->needs(\App\Models\Employee::class)
+            ->give(function () {
+                return new \App\Models\Employee();
+            });
+
         $this->app->when(\App\Repositories\HospitalRepository::class)
             ->needs(\App\Models\Hospital::class)
             ->give(function () {
