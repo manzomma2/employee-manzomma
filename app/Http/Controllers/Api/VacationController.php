@@ -21,7 +21,7 @@ class VacationController extends Controller
     {
         $this->vacationService = $vacationService;
         $this->middleware('permission:vacations,list_view')->only('index');
-        $this->middleware('permission:vacations,list_view')->only('employeePeriod');
+        $this->middleware('permission:vacations,list_view')->only(['employeePeriod', 'stats']);
         $this->middleware('permission:vacations,detailed_view')->only('show');
         $this->middleware('permission:vacations,create')->only('store');
         $this->middleware('permission:vacations,update')->only(['update', 'cut', 'extend', 'complete']);
@@ -37,6 +37,17 @@ class VacationController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => EmployeeVacationSummaryResource::collection($vacations),
+        ]);
+    }
+
+    public function stats(): JsonResponse
+    {
+        $filters = request()->except(['page', 'per_page']);
+        $stats = $this->vacationService->stats($filters);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $stats,
         ]);
     }
 

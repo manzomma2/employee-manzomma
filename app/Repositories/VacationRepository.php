@@ -37,7 +37,6 @@ class VacationRepository implements VacationRepositoryInterface
         'lastCompletedVacation.vacationType',
         'lastCompletedVacation.vacationHospital.hospital',
     ];
-
     public function __construct(Vacation $vacation, Employee $employee)
     {
         $this->model = $vacation;
@@ -51,13 +50,66 @@ class VacationRepository implements VacationRepositoryInterface
             ->with($this->employeeVacationSummaryRelations);
 
         $this->applyEmployeeFilters($query, $filters);
-
+        // Apply vacation type filter if provided (get just the officer with the specific vacation type)
+        $vacationTypeIds = $this->filterValues($filters, 'vacation_type_ids');
+        if ($vacationTypeIds) {
+            $query->whereHas('vacations', function ($query) use ($vacationTypeIds) {
+                $query->whereIn('vacation_type_id', $vacationTypeIds);
+            });
+        }
         return $query->latest()->paginate($perPage);
     }
 
     public function show($id)
     {
         return $this->model->with($this->relations)->findOrFail($id);
+    }
+
+    public function stats(array $filters = []): array
+    {
+        $employeeQuery = $this->employeeModel->newQuery();
+        $this->applyEmployeeFilters($employeeQuery, $filters);
+
+        $total = (clone $employeeQuery)->count();
+
+        $employeeIdsQuery = (clone $employeeQuery)->select('id');
+
+        $today = Carbon::today()->toDateString();
+
+        $activeVacationsQuery = $this->model
+            ->where('status', 'active')
+            ->whereIn('employee_id', $employeeIdsQuery)
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today);
+
+        $activeVacationCounts = (clone $activeVacationsQuery)
+            ->select(
+                'vacation_type_id',
+                DB::raw('COUNT(DISTINCT employee_id) as employees_count')
+            )
+            ->groupBy('vacation_type_id')
+            ->pluck('employees_count', 'vacation_type_id');
+
+        $activeEmployeesCount = (clone $activeVacationsQuery)
+            ->distinct()
+            ->count('employee_id');
+
+        $present = max(0, $total - $activeEmployeesCount);
+        return [
+            'total' => $total,
+            'present' => $present,
+            'outside' => $activeEmployeesCount,
+            'vacation_types' => VacationType::query()
+                ->orderBy('id')
+                ->get(['id', 'name', 'color'])
+                ->map(fn (VacationType $vacationType) => [
+                    'id' => $vacationType->id,
+                    'name' => $vacationType->name,
+                    'color' => $vacationType->color,
+                    'count' => (int) ($activeVacationCounts[$vacationType->id] ?? 0),
+                ])
+                ->values(),
+        ];
     }
 
     public function employeePeriod(array $data)
