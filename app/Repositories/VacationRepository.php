@@ -75,7 +75,10 @@ class VacationRepository implements VacationRepositoryInterface
 
     public function show($id)
     {
-        return $this->model->with($this->relations)->findOrFail($id);
+        $query = $this->model->with($this->relations);
+        $this->applyEmployeeFilters($query, [], 'employee');
+
+        return $query->findOrFail($id);
     }
 
     public function stats(array $filters = []): array
@@ -138,9 +141,10 @@ class VacationRepository implements VacationRepositoryInterface
 
     public function employeePeriod(array $data)
     {
-        return $this->model
-            ->with($this->relations)
-            ->where('employee_id', $data['employee_id'])
+        $query = $this->model->with($this->relations);
+        $this->applyEmployeeFilters($query, [], 'employee');
+
+        return $query->where('employee_id', $data['employee_id'])
             ->whereDate('start_date', '<=', $data['to_date'])
             ->whereDate('end_date', '>=', $data['from_date'])
             ->latest('start_date')
@@ -149,6 +153,10 @@ class VacationRepository implements VacationRepositoryInterface
 
     public function store(array $data)
     {
+        $employeeQuery = $this->employeeModel->newQuery();
+        $this->applyAuthenticatedUserSectorFilter($employeeQuery);
+        $employeeQuery->findOrFail($data['employee_id']);
+
         $data = $this->prepareVacationDataForStore($data);
         $hospitalData = $this->extractHospitalData($data);
 
@@ -168,7 +176,10 @@ class VacationRepository implements VacationRepositoryInterface
         $hospitalData = $this->extractHospitalData($data);
 
         return DB::transaction(function () use ($id, $data, $hospitalData) {
-            $vacation = $this->model->with('vacationHospital')->findOrFail($id);
+            $query = $this->model->with('vacationHospital');
+            $this->applyEmployeeFilters($query, [], 'employee');
+
+            $vacation = $query->findOrFail($id);
             $vacation->update($data);
 
             if ($this->isHospitalVacation($vacation->vacation_type_id)) {
@@ -187,7 +198,10 @@ class VacationRepository implements VacationRepositoryInterface
     public function cut($id, array $data)
     {
         return DB::transaction(function () use ($id, $data) {
-            $vacation = $this->model->findOrFail($id);
+            $query = $this->model->newQuery();
+            $this->applyEmployeeFilters($query, [], 'employee');
+
+            $vacation = $query->findOrFail($id);
             $cutDate = Carbon::parse($data['cut_date']);
             $oldEndDate = Carbon::parse($vacation->end_date);
 
@@ -205,7 +219,10 @@ class VacationRepository implements VacationRepositoryInterface
     public function extend($id, array $data)
     {
         return DB::transaction(function () use ($id, $data) {
-            $vacation = $this->model->findOrFail($id);
+            $query = $this->model->newQuery();
+            $this->applyEmployeeFilters($query, [], 'employee');
+
+            $vacation = $query->findOrFail($id);
             $extensionDate = Carbon::parse($data['extension_date']);
             $oldEndDate = Carbon::parse($vacation->end_date);
 
@@ -222,7 +239,10 @@ class VacationRepository implements VacationRepositoryInterface
     public function complete($id)
     {
         return DB::transaction(function () use ($id) {
-            $vacation = $this->model->findOrFail($id);
+            $query = $this->model->newQuery();
+            $this->applyEmployeeFilters($query, [], 'employee');
+
+            $vacation = $query->findOrFail($id);
             $endDate = Carbon::parse($vacation->end_date);
 
             if (! $endDate->isToday()) {
@@ -241,7 +261,10 @@ class VacationRepository implements VacationRepositoryInterface
 
     public function delete($id): bool
     {
-        $vacation = $this->model->findOrFail($id);
+        $query = $this->model->newQuery();
+        $this->applyEmployeeFilters($query, [], 'employee');
+
+        $vacation = $query->findOrFail($id);
 
         return $vacation->delete();
     }

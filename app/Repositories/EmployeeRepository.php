@@ -35,7 +35,10 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function show($id)
     {
-        return $this->model->with($this->relations)->findOrFail($id);
+        $query = $this->model->with($this->relations);
+        $this->applyAuthenticatedUserSectorFilter($query);
+
+        return $query->findOrFail($id);
     }
 
     public function store(array $data)
@@ -45,14 +48,20 @@ class EmployeeRepository implements EmployeeRepositoryInterface
 
     public function update($id, array $data)
     {
-        $employee = $this->model->findOrFail($id);
+        $query = $this->model->newQuery();
+        $this->applyAuthenticatedUserSectorFilter($query);
+
+        $employee = $query->findOrFail($id);
         $employee->update($data);
         return $employee->fresh();
     }
 
     public function delete($id): bool
     {
-        $employee = $this->model->findOrFail($id);
+        $query = $this->model->newQuery();
+        $this->applyAuthenticatedUserSectorFilter($query);
+
+        $employee = $query->findOrFail($id);
         return $employee->delete();
     }
 }

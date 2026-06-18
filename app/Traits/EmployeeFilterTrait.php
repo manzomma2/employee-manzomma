@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 trait EmployeeFilterTrait
 {
@@ -13,6 +14,8 @@ trait EmployeeFilterTrait
                 $this->applyEmployeeFilters($query, $filters);
             });
         }
+
+        $this->applyAuthenticatedUserSectorFilter($query);
 
         $sectorIds = $this->filterValues($filters, 'sector_ids');
         if ($sectorIds) {
@@ -61,6 +64,19 @@ trait EmployeeFilterTrait
                             ->orWhere('last_name', 'like', '%' . $name . '%');
                     });
                 }
+            });
+        }
+
+        return $query;
+    }
+
+    protected function applyAuthenticatedUserSectorFilter(Builder $query): Builder
+    {
+        $user = Auth::user();
+
+        if ($user && $user->sector_id) {
+            $query->whereHas('latestAdministrationOrder', function (Builder $query) use ($user) {
+                $query->where('sector_id', $user->sector_id);
             });
         }
 
