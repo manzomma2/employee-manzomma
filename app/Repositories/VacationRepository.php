@@ -52,10 +52,22 @@ class VacationRepository implements VacationRepositoryInterface
         $this->applyEmployeeFilters($query, $filters);
         // Apply vacation type filter if provided (get just the officer with the specific vacation type)
         $vacationTypeIds = $this->filterValues($filters, 'vacation_type_ids');
-        if ($vacationTypeIds) {
-            $query->whereHas('vacations', function ($query) use ($vacationTypeIds) {
-                $query->whereIn('vacation_type_id', $vacationTypeIds);
-                $query->where('status', 'active');
+        $endDates = $this->filterValues($filters, 'end_date');
+
+        if ($vacationTypeIds || $endDates) {
+            $query->whereHas('vacations', function ($query) use ($vacationTypeIds, $endDates) {
+                if ($vacationTypeIds) {
+                    $query->whereIn('vacation_type_id', $vacationTypeIds);
+                    $query->where('status', 'active');
+                }
+
+                if ($endDates) {
+                    $query->where(function ($query) use ($endDates) {
+                        foreach ($endDates as $endDate) {
+                            $query->orWhereDate('end_date', Carbon::parse($endDate)->toDateString());
+                        }
+                    });
+                }
             });
         }
         return $query->latest()->paginate($perPage);
@@ -70,6 +82,17 @@ class VacationRepository implements VacationRepositoryInterface
     {
         $employeeQuery = $this->employeeModel->newQuery();
         $this->applyEmployeeFilters($employeeQuery, $filters);
+
+        $endDates = $this->filterValues($filters, 'end_date');
+        if ($endDates) {
+            $employeeQuery->whereHas('vacations', function ($query) use ($endDates) {
+                $query->where(function ($query) use ($endDates) {
+                    foreach ($endDates as $endDate) {
+                        $query->orWhereDate('end_date', Carbon::parse($endDate)->toDateString());
+                    }
+                });
+            });
+        }
 
         $total = (clone $employeeQuery)->count();
 
