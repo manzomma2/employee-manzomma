@@ -55,6 +55,7 @@ class VacationRepository implements VacationRepositoryInterface
         if ($vacationTypeIds) {
             $query->whereHas('vacations', function ($query) use ($vacationTypeIds) {
                 $query->whereIn('vacation_type_id', $vacationTypeIds);
+                $query->where('status', 'active');
             });
         }
         return $query->latest()->paginate($perPage);

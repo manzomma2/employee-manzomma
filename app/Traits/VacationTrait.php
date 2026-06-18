@@ -29,19 +29,13 @@ trait VacationTrait
 
         $currentVacation = $this->currentActiveVacationForEmployee($data['employee_id']);
 
-        if (! $currentVacation) {
-            $data['status'] = 'active';
+        if ($requestedStartDate->gt($today)) {
+            if ($currentVacation && $requestedStartDate->lte($currentVacation->end_date)) {
+                throw ValidationException::withMessages([
+                    'start_date' => 'The next vacation must start after the active vacation end date.',
+                ]);
+            }
 
-            return $data;
-        }
-
-        if ($requestedStartDate->lte($currentVacation->end_date)) {
-            throw ValidationException::withMessages([
-                'start_date' => 'The next vacation must start after the active vacation end date.',
-            ]);
-        }
-
-        if ($requestedStartDate->gt($currentVacation->end_date)) {
             if ($this->scheduledVacationForEmployee($data['employee_id'])) {
                 throw ValidationException::withMessages([
                     'start_date' => 'This employee already has a scheduled future vacation.',
@@ -49,7 +43,17 @@ trait VacationTrait
             }
 
             $data['status'] = 'scedual';
+
+            return $data;
         }
+
+        if ($currentVacation) {
+            throw ValidationException::withMessages([
+                'start_date' => 'This employee already has an active vacation.',
+            ]);
+        }
+
+        $data['status'] = 'active';
 
         return $data;
     }
